@@ -1,0 +1,56 @@
+---
+import "../styles/global.css";
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = "Portafolio",
+	description = "Portafolio personal — experiencia, proyectos y contacto.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content={description} />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>{title}</title>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+		/>
+
+		<!--
+			Se aplica el tema antes del primer paint para evitar el
+			"flash" del tema incorrecto al cargar la página.
+		-->
+		<script is:inline>
+			(function () {
+				const stored = localStorage.getItem("theme");
+				const prefersDark = window.matchMedia(
+					"(prefers-color-scheme: dark)",
+				).matches;
+				const isDark = stored ? stored === "dark" : prefersDark;
+				document.documentElement.classList.toggle("dark", isDark);
+			})();
+		</script>
+	</head>
+	<body>
+		<a
+			href="#contenido"
+			class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-100 focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:text-bg"
+		>
+			Saltar al contenido
+		</a>
+		<slot />
+	</body>
+</html>

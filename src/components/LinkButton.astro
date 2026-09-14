@@ -1,0 +1,18 @@
+---
+interface Props {
+	href: string;
+	variant?: "solid" | "ghost";
+}
+
+const { href, variant = "ghost" } = Astro.props;
+const isExternal = /^https?:\/\//.test(href);
+---
+
+<a
+	href={href}
+	target={isExternal ? "_blank" : undefined}
+	rel={isExternal ? "noreferrer" : undefined}
+	class={variant === "solid" ? "btn" : "btn-ghost"}
+>
+	<slot />
+</a>

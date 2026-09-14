@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+/* Habilita el modo oscuro basado en la clase `.dark` en <html>,
+   en vez del `prefers-color-scheme` por defecto de Tailwind v4. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+	--color-accent: #d89b3c; /* latón/ámbar: único acento del sitio */
+	--color-accent-strong: #b87d24;
+
+	/* Tokens de tema (valores por defecto = modo claro).
+	   Se sobreescriben en .dark más abajo; como Tailwind genera
+	   utilidades que referencian estas variables (bg-bg, text-text, etc.),
+	   el cambio de tema no necesita clases dark: repetidas por todo el markup. */
+	--color-bg: #f7f6f3;
+	--color-bg-elevated: #efece5;
+	--color-text: #14181f;
+	--color-text-muted: #5b6472;
+	--color-border: #dedbd3;
+}
+
+.dark {
+	--color-bg: #0c0f13;
+	--color-bg-elevated: #171b22;
+	--color-text: #e8e6e1;
+	--color-text-muted: #8890a0;
+	--color-border: #262b33;
+}
+
+@layer base {
+	html {
+		scroll-behavior: smooth;
+		color-scheme: light dark;
+	}
+
+	body {
+		background-color: var(--color-bg);
+		color: var(--color-text);
+		font-family: var(--font-sans);
+	}
+
+	/* Compensa el header sticky al hacer scroll a una sección con ancla. */
+	section[id] {
+		scroll-margin-top: 5rem;
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
+}
+
+@layer components {
+	/* Marco de foto con marcas de registro en dos esquinas, como una
+	   anotación de plano técnico en vez del avatar circular genérico. */
+	.photo-frame {
+		position: relative;
+	}
+
+	.photo-frame::before,
+	.photo-frame::after {
+		content: "";
+		position: absolute;
+		width: 16px;
+		height: 16px;
+		border-color: var(--color-accent);
+		pointer-events: none;
+	}
+
+	.photo-frame::before {
+		top: -7px;
+		left: -7px;
+		border-top: 2px solid var(--color-accent);
+		border-left: 2px solid var(--color-accent);
+	}
+
+	.photo-frame::after {
+		bottom: -7px;
+		right: -7px;
+		border-bottom: 2px solid var(--color-accent);
+		border-right: 2px solid var(--color-accent);
+	}
+
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		border-radius: 0.5rem;
+		padding: 0.5rem 1rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		background-color: var(--color-accent);
+		color: #14181f;
+		transition: background-color 0.15s ease;
+	}
+
+	.btn:hover {
+		background-color: var(--color-accent-strong);
+	}
+
+	.btn-ghost {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		border-radius: 0.5rem;
+		border: 1px solid var(--color-border);
+		padding: 0.5rem 1rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: var(--color-text);
+		transition:
+			border-color 0.15s ease,
+			color 0.15s ease;
+	}
+
+	.btn-ghost:hover {
+		border-color: var(--color-accent);
+		color: var(--color-accent);
+	}
+
+	.tag {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		border-radius: 0.375rem;
+		border: 1px solid var(--color-border);
+		padding: 0.2rem 0.5rem;
+		color: var(--color-text-muted);
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.hero-reveal {
+		animation: hero-reveal 0.6s ease-out both;
+	}
+}
+
+@keyframes hero-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

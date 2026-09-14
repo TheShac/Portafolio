@@ -1,0 +1,36 @@
+---
+import IconSun from "./icons/IconSun.astro";
+import IconMoon from "./icons/IconMoon.astro";
+---
+
+<button
+	id="theme-toggle"
+	type="button"
+	aria-label="Cambiar a modo claro"
+	aria-pressed="false"
+	class="grid size-8 shrink-0 place-items-center rounded-md text-text-muted transition-colors hover:text-accent"
+>
+	<IconSun class="size-4.5 hidden dark:block" />
+	<IconMoon class="size-4.5 block dark:hidden" />
+</button>
+
+<script>
+	const button = document.getElementById("theme-toggle");
+
+	function syncPressedState() {
+		const isDark = document.documentElement.classList.contains("dark");
+		button?.setAttribute("aria-pressed", String(isDark));
+		button?.setAttribute(
+			"aria-label",
+			isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro",
+		);
+	}
+
+	button?.addEventListener("click", () => {
+		const isDark = document.documentElement.classList.toggle("dark");
+		localStorage.setItem("theme", isDark ? "dark" : "light");
+		syncPressedState();
+	});
+
+	syncPressedState();
+</script>

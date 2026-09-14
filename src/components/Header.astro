@@ -1,0 +1,176 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+import IconMenu from "./icons/IconMenu.astro";
+import IconClose from "./icons/IconClose.astro";
+import { profile } from "../data/profile";
+
+const links = [
+	{ label: "Experiencia", href: "#experiencia" },
+	{ label: "Proyectos", href: "#proyectos" },
+	{ label: "Sobre mí", href: "#sobre-mi" },
+	{ label: "Contacto", href: "#contacto" },
+];
+
+const initials = profile.name
+	.split(" ")
+	.filter(Boolean)
+	.slice(0, 2)
+	.map((word) => word[0]?.toUpperCase())
+	.join("");
+---
+
+<header
+	class="sticky top-0 z-50 border-b border-border bg-bg/90 backdrop-blur-md"
+>
+	<div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 sm:px-6">
+		<a
+			href="#"
+			class="grid size-8 place-items-center rounded-md border border-border font-mono text-xs font-medium text-text transition-colors hover:border-accent hover:text-accent"
+			aria-label="Volver al inicio"
+		>
+			{initials}
+		</a>
+
+		<nav class="hidden sm:block" aria-label="Secciones de la página">
+			<ul class="flex items-center gap-6">
+				{
+					links.map((link) => (
+						<li>
+							<a
+								href={link.href}
+								data-nav-link
+								data-target={link.href.slice(1)}
+								class="nav-link border-b-2 border-transparent pb-0.5 text-sm font-medium text-text-muted transition-colors hover:text-text"
+							>
+								{link.label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+
+		<div class="flex items-center gap-1">
+			<button
+				id="mobile-menu-toggle"
+				type="button"
+				aria-label="Abrir menú de navegación"
+				aria-expanded="false"
+				aria-controls="mobile-menu"
+				class="grid size-8 place-items-center rounded-md text-text-muted transition-colors hover:text-text sm:hidden"
+			>
+				<IconMenu class="size-5" id="mobile-menu-icon-open" />
+				<IconClose class="hidden size-5" id="mobile-menu-icon-close" />
+			</button>
+
+			<ThemeToggle />
+		</div>
+	</div>
+
+	<nav
+		id="mobile-menu"
+		aria-label="Secciones de la página"
+		class="hidden flex-col border-t border-border bg-bg sm:hidden"
+	>
+		{
+			links.map((link) => (
+				<a
+					href={link.href}
+					data-nav-link
+					data-target={link.href.slice(1)}
+					class="nav-link border-b border-border px-4 py-3 text-sm font-medium text-text-muted last:border-b-0"
+				>
+					{link.label}
+				</a>
+			))
+		}
+	</nav>
+</header>
+
+<style>
+	.nav-link[data-active="true"] {
+		border-color: var(--color-accent);
+		color: var(--color-accent);
+	}
+
+	/* El menú mobile solo necesita mostrarse en flex-col al abrirse;
+	   controlamos el display aquí (solo por debajo de `sm`) para no
+	   depender del orden en que Tailwind genera las utilidades
+	   `hidden` y `flex`. */
+	@media (max-width: 639.98px) {
+		#mobile-menu:not(.hidden) {
+			display: flex;
+		}
+	}
+</style>
+
+<script>
+	const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+	const mobileMenu = document.getElementById("mobile-menu");
+	const openIcon = document.getElementById("mobile-menu-icon-open");
+	const closeIcon = document.getElementById("mobile-menu-icon-close");
+
+	mobileMenuToggle?.addEventListener("click", () => {
+		const isOpen = mobileMenu?.classList.toggle("hidden") === false;
+		mobileMenuToggle.setAttribute("aria-expanded", String(isOpen));
+		openIcon?.classList.toggle("hidden", isOpen);
+		closeIcon?.classList.toggle("hidden", !isOpen);
+	});
+
+	mobileMenu?.querySelectorAll("a").forEach((link) => {
+		link.addEventListener("click", () => {
+			mobileMenu.classList.add("hidden");
+			mobileMenuToggle?.setAttribute("aria-expanded", "false");
+			openIcon?.classList.remove("hidden");
+			closeIcon?.classList.add("hidden");
+		});
+	});
+
+	// Resalta el link del nav correspondiente a la sección visible.
+	const navLinks = document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]");
+	const sections = Array.from(navLinks)
+		.map((link) => document.getElementById(link.dataset.target ?? ""))
+		.filter((section): section is HTMLElement => section !== null);
+
+	function setActive(id: string | null) {
+		navLinks.forEach((link) => {
+			const isActive = link.dataset.target === id;
+			if (isActive) {
+				link.setAttribute("data-active", "true");
+				link.setAttribute("aria-current", "page");
+			} else {
+				link.removeAttribute("data-active");
+				link.removeAttribute("aria-current");
+			}
+		});
+	}
+
+	const observer = new IntersectionObserver(
+		(entries) => {
+			const visible = entries
+				.filter((entry) => entry.isIntersecting)
+				.sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+			if (visible) {
+				setActive(visible.target.id);
+			}
+		},
+		{ rootMargin: "-40% 0px -50% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] },
+	);
+
+	sections.forEach((section) => observer.observe(section));
+
+	// Cerca del final de la página no siempre queda margen para que la
+	// última sección cruce la banda del observer: forzamos su resaltado.
+	function highlightLastSectionAtBottom() {
+		const scrolledToBottom =
+			window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+
+		if (scrolledToBottom && sections.length > 0) {
+			setActive(sections[sections.length - 1].id);
+		}
+	}
+
+	window.addEventListener("scroll", highlightLastSectionAtBottom, { passive: true });
+	highlightLastSectionAtBottom();
+</script>

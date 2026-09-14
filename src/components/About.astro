@@ -1,0 +1,27 @@
+---
+import { profile } from "../data/profile";
+import SectionHeader from "./SectionHeader.astro";
+import IconUser from "./icons/IconUser.astro";
+---
+
+<section id="sobre-mi" class="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+	<SectionHeader index="04" title="Sobre mí">
+		<IconUser slot="icon" class="size-4.5" />
+	</SectionHeader>
+
+	<div class="grid gap-8 sm:grid-cols-[1fr_auto] sm:items-start">
+		<div class="flex max-w-prose flex-col gap-4 text-text-muted">
+			{profile.about.map((paragraph) => <p>{paragraph}</p>)}
+		</div>
+
+		<div class="photo-frame order-first w-fit sm:order-last">
+			<img
+				src={profile.photo}
+				alt={`Foto de ${profile.name}`}
+				width="160"
+				height="160"
+				class="size-32 rounded-xl border border-border object-cover sm:size-40"
+			/>
+		</div>
+	</div>
+</section>
