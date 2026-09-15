@@ -2,6 +2,7 @@
 import { social } from "../data/social";
 import LinkButton from "./LinkButton.astro";
 import SectionHeader from "./SectionHeader.astro";
+import T from "./T.astro";
 import IconGithub from "./icons/IconGithub.astro";
 import IconLinkedin from "./icons/IconLinkedin.astro";
 import IconSend from "./icons/IconSend.astro";
@@ -9,19 +10,21 @@ import IconInstagram from "./icons/IconInstagram.astro";
 ---
 
 <section id="contacto" class="mx-auto max-w-4xl px-4 py-14 sm:px-6">
-	<SectionHeader index="05" title="Contacto">
+	<SectionHeader index="05" titleEs="Contacto" titleEn="Contact">
 		<IconSend slot="icon" class="size-4.5" />
 	</SectionHeader>
 
 	<p class="max-w-prose text-text-muted">
-		¿Tienes un proyecto en mente o quieres charlar? Escríbeme, siempre estoy
-		abierto a nuevas oportunidades y colaboraciones.
+		<T
+			es="¿Tienes un proyecto en mente o quieres charlar? Escríbeme, siempre estoy abierto a nuevas oportunidades y colaboraciones."
+			en="Have a project in mind or just want to talk? Reach out, I'm always open to new opportunities and collaborations."
+		/>
 	</p>
 
 	<div class="mt-6 flex flex-wrap items-center gap-3">
 		<LinkButton href={`mailto:${social.email}`} variant="solid">
 			<IconSend class="size-4" />
-			Enviar un correo
+			<T es="Enviar un correo" en="Send an email" />
 		</LinkButton>
 		<LinkButton href={social.linkedin}>
 			<IconLinkedin class="size-4" />

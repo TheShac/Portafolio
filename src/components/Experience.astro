@@ -1,11 +1,12 @@
 ---
 import { experience } from "../data/experience";
 import SectionHeader from "./SectionHeader.astro";
+import T from "./T.astro";
 import IconBriefcase from "./icons/IconBriefcase.astro";
 ---
 
 <section id="experiencia" class="mx-auto max-w-4xl px-4 py-14 sm:px-6">
-	<SectionHeader index="01" title="Experiencia laboral">
+	<SectionHeader index="01" titleEs="Experiencia laboral" titleEn="Work experience">
 		<IconBriefcase slot="icon" class="size-4.5" />
 	</SectionHeader>
 
@@ -16,13 +17,19 @@ import IconBriefcase from "./icons/IconBriefcase.astro";
 					<span class="absolute top-1 left-0 size-2 -translate-x-1/2 rounded-full bg-accent sm:hidden" />
 
 					<div>
-						<p class="text-lg font-semibold text-accent">{item.role}</p>
+						<p class="text-lg font-semibold text-accent">
+							<T es={item.role.es} en={item.role.en} />
+						</p>
 						<p class="font-medium text-text">{item.company}</p>
-						<p class="text-sm text-text-muted">{item.period}</p>
+						<p class="text-sm text-text-muted">
+							<T es={item.period.es} en={item.period.en} />
+						</p>
 					</div>
 
 					<div class="text-text-muted">
-						<p>{item.description}</p>
+						<p>
+							<T es={item.description.es} en={item.description.en} />
+						</p>
 						{item.link && (
 							<a
 								href={item.link.href}
@@ -30,7 +37,7 @@ import IconBriefcase from "./icons/IconBriefcase.astro";
 								rel="noreferrer"
 								class="mt-2 inline-block font-medium text-accent hover:underline"
 							>
-								{item.link.label}
+								<T es={item.link.label.es} en={item.link.label.en} />
 							</a>
 						)}
 					</div>

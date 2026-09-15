@@ -15,15 +15,18 @@ import IconMoon from "./icons/IconMoon.astro";
 </button>
 
 <script>
+	const LABELS = {
+		es: { toLight: "Cambiar a modo claro", toDark: "Cambiar a modo oscuro" },
+		en: { toLight: "Switch to light mode", toDark: "Switch to dark mode" },
+	} as const;
+
 	const button = document.getElementById("theme-toggle");
 
 	function syncPressedState() {
 		const isDark = document.documentElement.classList.contains("dark");
+		const lang = document.documentElement.lang === "en" ? "en" : "es";
 		button?.setAttribute("aria-pressed", String(isDark));
-		button?.setAttribute(
-			"aria-label",
-			isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro",
-		);
+		button?.setAttribute("aria-label", isDark ? LABELS[lang].toLight : LABELS[lang].toDark);
 	}
 
 	button?.addEventListener("click", () => {
@@ -32,5 +35,6 @@ import IconMoon from "./icons/IconMoon.astro";
 		syncPressedState();
 	});
 
+	document.addEventListener("langchange", syncPressedState);
 	syncPressedState();
 </script>

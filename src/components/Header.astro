@@ -1,14 +1,16 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
+import LangToggle from "./LangToggle.astro";
+import T from "./T.astro";
 import IconMenu from "./icons/IconMenu.astro";
 import IconClose from "./icons/IconClose.astro";
 import { profile } from "../data/profile";
 
 const links = [
-	{ label: "Experiencia", href: "#experiencia" },
-	{ label: "Proyectos", href: "#proyectos" },
-	{ label: "Sobre mí", href: "#sobre-mi" },
-	{ label: "Contacto", href: "#contacto" },
+	{ es: "Experiencia", en: "Experience", href: "#experiencia" },
+	{ es: "Proyectos", en: "Projects", href: "#proyectos" },
+	{ es: "Sobre mí", en: "About", href: "#sobre-mi" },
+	{ es: "Contacto", en: "Contact", href: "#contacto" },
 ];
 
 const initials = profile.name
@@ -27,11 +29,20 @@ const initials = profile.name
 			href="#"
 			class="grid size-8 place-items-center rounded-md border border-border font-mono text-xs font-medium text-text transition-colors hover:border-accent hover:text-accent"
 			aria-label="Volver al inicio"
+			data-i18n-attr="aria-label"
+			data-i18n-es="Volver al inicio"
+			data-i18n-en="Back to top"
 		>
 			{initials}
 		</a>
 
-		<nav class="hidden sm:block" aria-label="Secciones de la página">
+		<nav
+			class="hidden sm:block"
+			aria-label="Secciones de la página"
+			data-i18n-attr="aria-label"
+			data-i18n-es="Secciones de la página"
+			data-i18n-en="Page sections"
+		>
 			<ul class="flex items-center gap-6">
 				{
 					links.map((link) => (
@@ -40,9 +51,9 @@ const initials = profile.name
 								href={link.href}
 								data-nav-link
 								data-target={link.href.slice(1)}
-								class="nav-link border-b-2 border-transparent pb-0.5 text-sm font-medium text-text-muted transition-colors hover:text-text"
+								class="nav-link border-b-2 border-transparent pb-0.5 text-sm font-medium whitespace-nowrap text-text-muted transition-colors hover:text-text"
 							>
-								{link.label}
+								<T es={link.es} en={link.en} />
 							</a>
 						</li>
 					))
@@ -55,6 +66,9 @@ const initials = profile.name
 				id="mobile-menu-toggle"
 				type="button"
 				aria-label="Abrir menú de navegación"
+				data-i18n-attr="aria-label"
+				data-i18n-es="Abrir menú de navegación"
+				data-i18n-en="Open navigation menu"
 				aria-expanded="false"
 				aria-controls="mobile-menu"
 				class="grid size-8 place-items-center rounded-md text-text-muted transition-colors hover:text-text sm:hidden"
@@ -63,6 +77,7 @@ const initials = profile.name
 				<IconClose class="hidden size-5" id="mobile-menu-icon-close" />
 			</button>
 
+			<LangToggle />
 			<ThemeToggle />
 		</div>
 	</div>
@@ -70,6 +85,9 @@ const initials = profile.name
 	<nav
 		id="mobile-menu"
 		aria-label="Secciones de la página"
+		data-i18n-attr="aria-label"
+		data-i18n-es="Secciones de la página"
+		data-i18n-en="Page sections"
 		class="hidden flex-col border-t border-border bg-bg sm:hidden"
 	>
 		{
@@ -80,7 +98,7 @@ const initials = profile.name
 					data-target={link.href.slice(1)}
 					class="nav-link border-b border-border px-4 py-3 text-sm font-medium text-text-muted last:border-b-0"
 				>
-					{link.label}
+					<T es={link.es} en={link.en} />
 				</a>
 			))
 		}
@@ -105,6 +123,12 @@ const initials = profile.name
 </style>
 
 <script>
+	import { applyLang } from "../scripts/lang";
+
+	// Sincroniza aria-label, etc. (data-i18n-attr) con el idioma que ya
+	// fijó el script anti-flash del <head> sobre <html lang>.
+	applyLang(document.documentElement.lang === "en" ? "en" : "es");
+
 	const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
 	const mobileMenu = document.getElementById("mobile-menu");
 	const openIcon = document.getElementById("mobile-menu-icon-open");

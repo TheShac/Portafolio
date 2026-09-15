@@ -1,11 +1,14 @@
 ---
+import T from "./T.astro";
+
 interface Props {
 	/** Código de dos dígitos: la sección es un ítem real del índice de la página. */
 	index: string;
-	title: string;
+	titleEs: string;
+	titleEn: string;
 }
 
-const { index, title } = Astro.props;
+const { index, titleEs, titleEn } = Astro.props;
 ---
 
 <div class="mb-8 flex items-center gap-3">
@@ -13,6 +16,8 @@ const { index, title } = Astro.props;
 	<span class="text-text-muted [&>svg]:size-6 sm:[&>svg]:size-7">
 		<slot name="icon" />
 	</span>
-	<h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">{title}</h2>
+	<h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
+		<T es={titleEs} en={titleEn} />
+	</h2>
 	<span class="h-px flex-1 bg-border"></span>
 </div>

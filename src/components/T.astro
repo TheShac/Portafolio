@@ -1,0 +1,16 @@
+---
+/**
+ * Texto bilingüe: renderiza ambos idiomas en el HTML y el CSS de
+ * `global.css` muestra solo el que corresponde a `<html lang>`. Así el
+ * toggle de idioma no recarga la página ni depende de JS para pintar
+ * el texto correcto (solo para poder cambiarlo).
+ */
+interface Props {
+	es: string;
+	en: string;
+}
+
+const { es, en } = Astro.props;
+---
+
+<span data-i18n="es">{es}</span><span data-i18n="en">{en}</span>

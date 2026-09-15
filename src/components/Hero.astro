@@ -2,6 +2,7 @@
 import { profile } from "../data/profile";
 import { social } from "../data/social";
 import LinkButton from "./LinkButton.astro";
+import T from "./T.astro";
 import IconGithub from "./icons/IconGithub.astro";
 import IconLinkedin from "./icons/IconLinkedin.astro";
 import IconMail from "./icons/IconMail.astro";
@@ -13,6 +14,9 @@ import IconMail from "./icons/IconMail.astro";
 			<img
 				src={profile.photo}
 				alt={`Foto de ${profile.name}`}
+				data-i18n-attr="alt"
+				data-i18n-es={`Foto de ${profile.name}`}
+				data-i18n-en={`Photo of ${profile.name}`}
 				width="96"
 				height="96"
 				class="size-20 rounded-full border border-border object-cover sm:size-24"
@@ -26,7 +30,7 @@ import IconMail from "./icons/IconMail.astro";
 						<span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
 						<span class="relative inline-flex size-2 rounded-full bg-emerald-500" />
 					</span>
-					Disponible para trabajar
+					<T es="Disponible para trabajar" en="Available for work" />
 				</span>
 			)
 		}
@@ -34,19 +38,22 @@ import IconMail from "./icons/IconMail.astro";
 
 	<div class="hero-reveal mt-8" style="animation-delay: 0.08s">
 		<h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">
-			Hey, soy {profile.name}
+			<T es="Hey, soy" en="Hey, I'm" /> {profile.name}
 		</h1>
 
 		<p class="mt-4 max-w-prose text-text-muted">
-			{profile.experienceSummary}{" "}
-			<strong class="font-semibold text-accent">{profile.role}</strong> de{" "}
-			{profile.location}. {profile.specialty}
+			<T es={profile.experienceSummary.es} en={profile.experienceSummary.en} />{" "}
+			<strong class="font-semibold text-accent">
+				<T es={profile.role.es} en={profile.role.en} />
+			</strong>{" "}
+			<T es="de" en="based in" /> {profile.location}.{" "}
+			<T es={profile.specialty.es} en={profile.specialty.en} />
 		</p>
 
 		<div class="mt-6 flex flex-wrap items-center gap-3">
 			<LinkButton href={`mailto:${social.email}`} variant="solid">
 				<IconMail class="size-4" />
-				Contáctame
+				<T es="Contáctame" en="Contact me" />
 			</LinkButton>
 			<LinkButton href={social.linkedin}>
 				<IconLinkedin class="size-4" />

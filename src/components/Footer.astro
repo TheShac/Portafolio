@@ -1,12 +1,18 @@
 ---
 import { profile } from "../data/profile";
+import T from "./T.astro";
 
 const year = new Date().getFullYear();
 ---
 
 <footer class="border-t border-border">
 	<div class="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-3 px-4 py-6 text-sm text-text-muted sm:px-6">
-		<p>© {year} {profile.name}. Todos los derechos reservados.</p>
-		<p>Desarrollado por {profile.name}</p>
+		<p>
+			© {year} {profile.name}.{" "}
+			<T es="Todos los derechos reservados." en="All rights reserved." />
+		</p>
+		<p>
+			<T es="Desarrollado por" en="Built by" /> {profile.name}
+		</p>
 	</div>
 </footer>

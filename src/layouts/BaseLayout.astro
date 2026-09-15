@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import T from "../components/T.astro";
 
 interface Props {
 	title?: string;
@@ -30,8 +31,10 @@ const {
 		/>
 
 		<!--
-			Se aplica el tema antes del primer paint para evitar el
-			"flash" del tema incorrecto al cargar la página.
+			Se aplican el tema y el idioma antes del primer paint para evitar
+			el "flash" del valor incorrecto al cargar la página. El idioma
+			por defecto es español; solo cambia si el visitante ya lo cambió
+			antes (queda guardado en localStorage).
 		-->
 		<script is:inline>
 			(function () {
@@ -41,6 +44,9 @@ const {
 				).matches;
 				const isDark = stored ? stored === "dark" : prefersDark;
 				document.documentElement.classList.toggle("dark", isDark);
+
+				const lang = localStorage.getItem("lang") === "en" ? "en" : "es";
+				document.documentElement.lang = lang;
 			})();
 		</script>
 	</head>
@@ -49,7 +55,7 @@ const {
 			href="#contenido"
 			class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-100 focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:text-bg"
 		>
-			Saltar al contenido
+			<T es="Saltar al contenido" en="Skip to content" />
 		</a>
 		<slot />
 	</body>

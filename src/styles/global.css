@@ -36,6 +36,26 @@
 		color-scheme: light dark;
 	}
 
+	/* Texto bilingüe (ver componente <T>): por defecto se muestra el
+	   español; `html[lang="en"]` (fijado por el toggle de idioma) invierte
+	   qué mitad se ve. `display: contents` hace que el <span> no afecte el
+	   layout del texto que envuelve. */
+	[data-i18n="en"] {
+		display: none;
+	}
+
+	[data-i18n="es"] {
+		display: contents;
+	}
+
+	html[lang="en"] [data-i18n="es"] {
+		display: none;
+	}
+
+	html[lang="en"] [data-i18n="en"] {
+		display: contents;
+	}
+
 	body {
 		background-color: var(--color-bg);
 		color: var(--color-text);
