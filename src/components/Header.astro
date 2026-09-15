@@ -22,7 +22,7 @@ const initials = profile.name
 <header
 	class="sticky top-0 z-50 border-b border-border bg-bg/90 backdrop-blur-md"
 >
-	<div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 sm:px-6">
+	<div class="mx-auto flex max-w-4xl items-center justify-between px-4 py-3 sm:px-6">
 		<a
 			href="#"
 			class="grid size-8 place-items-center rounded-md border border-border font-mono text-xs font-medium text-text transition-colors hover:border-accent hover:text-accent"
@@ -145,32 +145,41 @@ const initials = profile.name
 		});
 	}
 
-	const observer = new IntersectionObserver(
-		(entries) => {
-			const visible = entries
-				.filter((entry) => entry.isIntersecting)
-				.sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+	// Scrollspy por posición: la sección activa es la última cuyo borde
+	// superior ya cruzó la línea de activación (justo debajo del header).
+	// A diferencia de un IntersectionObserver por ratio, esto no depende
+	// de qué tan alta sea cada sección ni de la dirección del scroll —
+	// con ratios, "Proyectos" (mucho más alta que el resto) casi nunca
+	// ganaba la comparación al hacer scroll hacia arriba y se saltaba.
+	const ACTIVATION_OFFSET = 110;
 
-			if (visible) {
-				setActive(visible.target.id);
-			}
-		},
-		{ rootMargin: "-40% 0px -50% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] },
-	);
-
-	sections.forEach((section) => observer.observe(section));
-
-	// Cerca del final de la página no siempre queda margen para que la
-	// última sección cruce la banda del observer: forzamos su resaltado.
-	function highlightLastSectionAtBottom() {
-		const scrolledToBottom =
+	function updateActiveSection() {
+		const activationY = window.scrollY + ACTIVATION_OFFSET;
+		const atBottom =
 			window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
 
-		if (scrolledToBottom && sections.length > 0) {
-			setActive(sections[sections.length - 1].id);
+		let currentId: string | null = sections[0]?.id ?? null;
+		for (const section of sections) {
+			const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+			if (sectionTop <= activationY) {
+				currentId = section.id;
+			} else {
+				break;
+			}
 		}
+
+		if (atBottom && sections.length > 0) {
+			currentId = sections[sections.length - 1].id;
+		}
+
+		setActive(currentId);
 	}
 
-	window.addEventListener("scroll", highlightLastSectionAtBottom, { passive: true });
-	highlightLastSectionAtBottom();
+	// El cálculo recorre solo 4-5 secciones y no vale la pena throttlear con
+	// requestAnimationFrame: si el frame nunca llega a dispararse (pestaña en
+	// segundo plano, etc.) un throttle basado en rAF puede quedar "pegado" y
+	// dejar de actualizar el nav por completo.
+	window.addEventListener("scroll", updateActiveSection, { passive: true });
+	window.addEventListener("resize", updateActiveSection);
+	updateActiveSection();
 </script>

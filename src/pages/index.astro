@@ -11,7 +11,10 @@ import Footer from "../components/Footer.astro";
 import { profile } from "../data/profile";
 ---
 
-<BaseLayout title={`${profile.name} — Portafolio`} description={profile.tagline}>
+<BaseLayout
+	title={`${profile.name} — Portafolio`}
+	description={`${profile.experienceSummary} ${profile.role} de ${profile.location}. ${profile.specialty}`}
+>
 	<Header />
 	<main id="contenido">
 		<Hero />

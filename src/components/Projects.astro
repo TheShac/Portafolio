@@ -5,12 +5,18 @@ import SectionHeader from "./SectionHeader.astro";
 import IconFolder from "./icons/IconFolder.astro";
 ---
 
-<section id="proyectos" class="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+<section id="proyectos" class="mx-auto max-w-4xl px-4 py-14 sm:px-6">
 	<SectionHeader index="03" title="Proyectos">
 		<IconFolder slot="icon" class="size-4.5" />
 	</SectionHeader>
 
-	<div class="flex flex-col gap-10">
-		{projects.map((project) => <ProjectCard {...project} />)}
+	<div class="flex flex-col divide-y divide-border">
+		{
+			projects.map((project) => (
+				<div class="py-10 first:pt-0 last:pb-0">
+					<ProjectCard {...project} />
+				</div>
+			))
+		}
 	</div>
 </section>

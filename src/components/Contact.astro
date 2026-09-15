@@ -5,9 +5,10 @@ import SectionHeader from "./SectionHeader.astro";
 import IconGithub from "./icons/IconGithub.astro";
 import IconLinkedin from "./icons/IconLinkedin.astro";
 import IconSend from "./icons/IconSend.astro";
+import IconInstagram from "./icons/IconInstagram.astro";
 ---
 
-<section id="contacto" class="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+<section id="contacto" class="mx-auto max-w-4xl px-4 py-14 sm:px-6">
 	<SectionHeader index="05" title="Contacto">
 		<IconSend slot="icon" class="size-4.5" />
 	</SectionHeader>
@@ -29,6 +30,10 @@ import IconSend from "./icons/IconSend.astro";
 		<LinkButton href={social.github}>
 			<IconGithub class="size-4" />
 			GitHub
+		</LinkButton>
+		<LinkButton href={social.instagram}>
+			<IconInstagram class="size-4" />
+			Instagram
 		</LinkButton>
 	</div>
 </section>

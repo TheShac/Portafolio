@@ -1,12 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
-	<rect width="640" height="360" fill="#0d121b" />
-	<rect x="0.5" y="0.5" width="639" height="359" fill="none" stroke="#1e293b" />
-	<g stroke="#f97316" stroke-width="3" stroke-linecap="round" opacity="0.9">
-		<path d="M240 150 200 180 240 210" fill="none" />
-		<path d="M400 150 440 180 400 210" fill="none" />
+	<rect width="640" height="360" fill="#0c0f13" />
+	<rect x="0.5" y="0.5" width="639" height="359" fill="none" stroke="#262b33" />
+
+	<g stroke="#d89b3c" stroke-width="2">
+		<path d="M16 32V16h16" fill="none" />
+		<path d="M624 328v16h-16" fill="none" />
 	</g>
-	<path d="M300 220 340 140" stroke="#facc15" stroke-width="3" stroke-linecap="round" opacity="0.9" fill="none" />
-	<text x="320" y="270" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#94a3b8">
-		Vista previa del proyecto
+
+	<g stroke="#d89b3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.9">
+		<path d="M255 145 215 180 255 215" fill="none" />
+		<path d="M385 145 425 180 385 215" fill="none" />
+		<path d="M305 222 335 138" fill="none" />
+	</g>
+
+	<text
+		x="320"
+		y="268"
+		text-anchor="middle"
+		font-family="ui-monospace, SFMono-Regular, monospace"
+		font-size="14"
+		fill="#8890a0"
+	>
+		vista-previa.pendiente
 	</text>
 </svg>
