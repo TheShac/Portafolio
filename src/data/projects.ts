@@ -52,7 +52,7 @@ export const projects: Project[] = [
 			es: "Proyecto universitario que implementa una plataforma de microservicios para la trazabilidad, reserva y facturación de insumos médicos hospitalarios, con los servicios comunicándose de forma asíncrona vía Apache Kafka y una base de datos PostgreSQL independiente por servicio. Desplegado con Docker Compose en desarrollo y en un clúster Kubernetes (K3s) con ambientes separados de QA y producción.",
 			en: "University project implementing a microservices platform to track, reserve and bill hospital medical supplies, with services communicating asynchronously via Apache Kafka and an independent PostgreSQL database per service. Deployed with Docker Compose in development and on a Kubernetes cluster (K3s) with separate QA and production environments.",
 		},
-		image: "/images/projects/placeholder.svg",
+		image: "/images/projects/gestion-medica.png",
 		tags: ["VUEJS", "TAILWIND", "NODEJS", "EXPRESS", "DOCKER", "POSTGRESQL"],
 		repoUrl: "https://github.com/TheShac/Proyecto-Insumos-M-dicos",
 	},
